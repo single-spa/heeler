@@ -1,3 +1,4 @@
 # Unpublished
 
-- (feature): COMMIT_MSG
+- (feature): COMMITMSG
+- (breaking): COMMITMSG
