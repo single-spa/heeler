@@ -1,3 +1,3 @@
 # Unpublished
 
-- (feature): Implement add and check commands
+- (feature): COMMIT_MSG
