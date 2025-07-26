@@ -20,12 +20,6 @@ switch (command) {
           type: "list",
           choices: ["breaking", "feature", "fix"],
         },
-        {
-          name: "message",
-          type: "editor",
-          message: "Changelog entry",
-          default: `\n# Add a description of your changes to the changelog`,
-        },
       ])
       .then((answers) => {
         return addToChangelog(answers);
