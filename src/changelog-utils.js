@@ -46,10 +46,9 @@ export async function assertChangelogMostRecentCommit() {
     return /.+ \- \(.+\):/g.test(line);
   });
 
-  const blameHash = firstChangelogEntry.slice(
-    0,
-    firstChangelogEntry.indexOf(" "),
-  );
+  const blameHash = firstChangelogEntry
+    .slice(0, firstChangelogEntry.indexOf(" "))
+    .replace(/^\^/, "");
   if (!mostRecentLog.latest.hash.startsWith(blameHash)) {
     throw Error(
       `heeler: no changelog for most recent commit: CHANGELOG.md's most recent unpublished changelog commit hash starts with ${blameHash}, but most recent commit hash is ${mostRecentLog.latest.hash}`,
