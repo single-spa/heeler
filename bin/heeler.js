@@ -2,6 +2,7 @@ import inquirer from "inquirer";
 import {
   addToChangelog,
   assertChangelogMostRecentCommit,
+  prepareRelease,
 } from "../src/changelog-utils.js";
 
 if (process.argv.length < 3) {
@@ -27,6 +28,9 @@ switch (command) {
     break;
   case "check":
     assertChangelogMostRecentCommit();
+    break;
+  case "prep":
+    prepareRelease();
     break;
   default:
     throw Error(`Unsupported heeler command '${command}'`);
