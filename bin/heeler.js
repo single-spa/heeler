@@ -19,11 +19,13 @@ switch (command) {
           name: "changetype",
           message: "Is this a breaking change, new feature, or fix?",
           type: "list",
-          choices: ["breaking", "feature", "fix"],
+          choices: ["breaking", "feature", "fix", "skip"],
         },
       ])
       .then((answers) => {
-        return addToChangelog(answers);
+        if (answers.changetype !== "skip") {
+          return addToChangelog(answers);
+        }
       });
     break;
   case "check":

@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "path";
 import simpleGit from "simple-git";
 import semver from "semver";
+import childProcess from "child_process";
 
 export function addToChangelog(answers) {
   const packageJson = fs.readFileSync(
@@ -61,9 +62,8 @@ export async function assertChangelogMostRecentCommit() {
 
 export async function prepareRelease() {
   const changelogPath = path.resolve(process.cwd(), "CHANGELOG.md");
-  const packageJson = JSON.parse(
-    fs.readFileSync(path.resolve(process.cwd(), "package.json"), "utf-8"),
-  );
+  const packageJsonPath = path.resolve(process.cwd(), "package.json");
+  const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf-8"));
   const originalChangelogLines = fs
     .readFileSync(changelogPath, "utf-8")
     .split("\n");
@@ -103,7 +103,7 @@ export async function prepareRelease() {
         } else if (!versionBump) {
           versionBump = "patch";
         }
-        changelogLines.push(message.replace("COMMIT_MSG", gitLog.message));
+        changelogLines.push(message.replace("COMMITMSG", gitLog.message));
       }
     }
   }
@@ -114,7 +114,17 @@ export async function prepareRelease() {
 
   fs.writeFileSync(
     changelogPath,
-    `# ${newVersion}\n\n${changelogLines.join("\n")}\n${unalteredLines}`,
+    `# ${newVersion.version}\n\n${changelogLines.join("\n")}\n${unalteredLines}`,
   );
   console.log("CHANGELOG.md updated and is ready for release");
+
+  packageJson.version = newVersion.version;
+
+  fs.writeFileSync(
+    packageJsonPath,
+    JSON.stringify(packageJson, null, 2),
+    "utf-8",
+  );
+
+  console.log("package.json version updated");
 }
