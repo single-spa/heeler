@@ -3,6 +3,15 @@ import path from "path";
 import simpleGit from "simple-git";
 
 export function addToChangelog(answers) {
+  const message = answers.message
+    .replace(`\n# Add a description of your changes to the changelog`, "")
+    .trim()
+    .replace(/\n/g, "");
+
+  if (message.length === 0) {
+    throw Error(`Changelog message cannot be empty`);
+  }
+
   const packageJson = fs.readFileSync(
     path.resolve(process.cwd(), "package.json"),
     "utf-8",
@@ -14,7 +23,7 @@ export function addToChangelog(answers) {
 
   const changelog = fs.readFileSync(changelogPath, "utf-8");
 
-  const startStr = "# Unpublished\n";
+  const startStr = "# Unpublished\n\n";
   let sliceIndex;
 
   if (changelog.startsWith(startStr)) {
@@ -23,7 +32,7 @@ export function addToChangelog(answers) {
     sliceIndex = 0;
   }
 
-  const newEntry = `- (${answers.changetype}): ${answers.message.replace("\n", "")}\n`;
+  const newEntry = `- (${answers.changetype}): ${message}\n`;
 
   const completeFile = startStr + newEntry + changelog.slice(sliceIndex);
 
