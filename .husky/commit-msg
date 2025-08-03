@@ -1,0 +1,4 @@
+exec < /dev/tty
+node bin/heeler.js add $(cat $1)
+git add .changelog
+git commit --amend --no-edit --no-verify

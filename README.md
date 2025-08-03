@@ -9,21 +9,11 @@ pnpm i --save-dev heeler husky
 
 pnpm exec husky
 
-echo "exec < /dev/tty && pnpm exec heeler add" > .husky/pre-commit
-```
-
-Then add `pnpm exec heeler check` to your CI/CD configuration, to ensure every pull request has added to the changelog
-
-To work with Github's actions/checkout, add the following to your Github workflow:
-
-```yml
-- uses: actions/checkout@v4
-  with:
-    ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || github.ref }}
+echo -e "exec < /dev/tty\npnpm exec heeler add $1\ngit add .changelog\ngit commit --amend --no-edit --no-verify" > .husky/commit-msg
 ```
 
 ## Usage
 
 Whenever a user runs `git commit`, they will be prompted for whether the change is breaking, feature, or fix. A line is added to the CHANGELOG.md for all commits that are unpublished.
 
-When publishing, run the `heeler prep` command to update the CHANGELOG.md to have the correct version number and messages.
+When publishing, run the `heeler prep` command beforehand to update the CHANGELOG.md to have the correct version number and messages.

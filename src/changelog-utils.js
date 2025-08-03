@@ -1,121 +1,88 @@
 import fs from "node:fs";
-import path from "path";
-import simpleGit from "simple-git";
+import path from "node:path";
 import semver from "semver";
-import childProcess from "child_process";
 
-export function addToChangelog(answers) {
-  const packageJson = fs.readFileSync(
-    path.resolve(process.cwd(), "package.json"),
+export async function addToChangelog(changeType, message) {
+  const changelogPath = path.resolve(process.cwd(), "./.changelog");
+  let existingFiles;
+
+  try {
+    existingFiles = fs.readdirSync(changelogPath);
+  } catch (err) {
+    fs.mkdirSync(changelogPath);
+    existingFiles = [];
+  }
+
+  fs.writeFileSync(
+    path.resolve(
+      process.cwd(),
+      `./.changelog/${existingFiles.length < 10 ? "0" : ""}${existingFiles.length + 1}.txt`,
+    ),
+    `${changeType}\n${message}`,
     "utf-8",
   );
-  const changelogPath = path.resolve(process.cwd(), "CHANGELOG.md");
-  if (!fs.existsSync(changelogPath)) {
-    fs.writeFileSync(changelogPath, "", "utf-8");
-  }
-
-  const changelog = fs.readFileSync(changelogPath, "utf-8");
-
-  const startStr = "# Unpublished\n\n";
-  let sliceIndex;
-
-  if (changelog.startsWith(startStr)) {
-    sliceIndex = startStr.length;
-  } else {
-    sliceIndex = 0;
-  }
-
-  const newEntry = `- (${answers.changetype}): COMMITMSG\n`;
-
-  const completeFile = startStr + newEntry + changelog.slice(sliceIndex);
-
-  fs.writeFileSync("CHANGELOG.md", completeFile, "utf-8");
-
-  return simpleGit().add("CHANGELOG.md");
-}
-
-export async function assertChangelogMostRecentCommit() {
-  const git = simpleGit();
-  const mostRecentLog = await git.log({ maxCount: 1 });
-
-  const blame = await git.raw(["blame", "CHANGELOG.md"]);
-  const blameLines = blame.split("\n");
-  if (!blameLines[0].endsWith("# Unpublished")) {
-    throw Error(`heeler: CHANGELOG.md doesn't have any unpublished changelogs`);
-  }
-
-  const firstChangelogEntry = blameLines.slice(1).find((line) => {
-    return /.+ \- \(.+\):/g.test(line);
-  });
-
-  const blameHash = firstChangelogEntry
-    .slice(0, firstChangelogEntry.indexOf(" "))
-    .replace(/^\^/, "");
-  if (!mostRecentLog.latest.hash.startsWith(blameHash)) {
-    throw Error(
-      `heeler: no changelog for most recent commit: CHANGELOG.md's most recent unpublished changelog commit hash starts with ${blameHash}, but most recent commit hash is ${mostRecentLog.latest.hash}`,
-    );
-  }
-
-  console.log("Changelog for most recent commit was found!");
 }
 
 export async function prepareRelease() {
   const changelogPath = path.resolve(process.cwd(), "CHANGELOG.md");
   const packageJsonPath = path.resolve(process.cwd(), "package.json");
   const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf-8"));
-  const originalChangelogLines = fs
-    .readFileSync(changelogPath, "utf-8")
-    .split("\n");
-  if (!originalChangelogLines[0].startsWith("# Unpublished")) {
-    throw Error(`heeler: CHANGELOG.md doesn't have any unpublished changelogs`);
+  const changelogLines = fs.readFileSync(changelogPath, "utf-8").split("\n");
+
+  if (changelogLines[0] !== `# ${packageJson.name}`) {
+    changelogLines.unshift(`# ${packageJson.name}`);
+    changelogLines.unshift("");
   }
 
-  const git = simpleGit();
-  const logs = await git.log({ maxCount: 40 });
+  let existingFiles;
+  try {
+    existingFiles = fs.readdirSync(path.resolve(process.cwd(), "./.changelog"));
+  } catch (err) {
+    existingFiles = [];
+  }
 
-  const blame = await git.raw(["blame", changelogPath]);
-  const blameLines = blame.split("\n");
+  if (existingFiles.length === 0) {
+    throw Error(`No new changelogs found`);
+  }
 
-  let unpublishedLines = true,
-    i = 1,
-    versionBump = "",
-    changelogLines = [];
+  existingFiles.sort();
 
-  while (unpublishedLines && i < blameLines.length) {
-    const regexResult = /(.+) \(.+\) (.+)/g.exec(blameLines[i++]);
-    if (regexResult) {
-      const [_, commitHash, message] = regexResult;
-      if (message.startsWith("#")) {
-        unpublishedLines = false;
-      } else {
-        const gitLog = logs.all.find((log) => log.hash.startsWith(commitHash));
-        if (!gitLog) {
-          throw Error(
-            `Could not find git log for changelog entry: "${message}"`,
-          );
-        }
-        const [_, changeType] = /\- \((.+)\)/g.exec(message);
-        if (changeType === "breaking") {
-          versionBump = "major";
-        } else if (changeType === "feature" && versionBump !== "major") {
-          versionBump = "minor";
-        } else if (!versionBump) {
-          versionBump = "patch";
-        }
-        changelogLines.push(message.replace("COMMITMSG", gitLog.message));
-      }
+  let versionBump = "";
+  const newChangelogLines = [""];
+
+  console.log(changelogLines);
+
+  for (let existingFile of existingFiles) {
+    const contents = fs.readFileSync(
+      path.resolve(process.cwd(), ".changelog", existingFile),
+      "utf-8",
+    );
+    console.log("contents", contents);
+    const [changeType, message] = contents.split("\n");
+
+    if (changeType === "breaking") {
+      versionBump = "major";
+    } else if (changeType === "feature" && versionBump !== "major") {
+      versionBump = "minor";
+    } else if (
+      changeType === "fix" &&
+      !["major", "minor"].includes(versionBump)
+    ) {
+      versionBump = "fix";
     }
+
+    newChangelogLines.push(`- ${changeType}: ${message}`);
   }
 
   const s = semver.parse(packageJson.version);
   const newVersion = s.inc(versionBump);
-  const unalteredLines = originalChangelogLines.slice(i);
 
-  fs.writeFileSync(
-    changelogPath,
-    `# ${newVersion.version}\n\n${changelogLines.join("\n")}\n${unalteredLines}`,
-  );
+  newChangelogLines.push(`## ${newVersion}`);
+  newChangelogLines.reverse();
+
+  changelogLines.splice(2, 0, ...newChangelogLines);
+
+  fs.writeFileSync(changelogPath, changelogLines.join("\n"), "utf-8");
   console.log("CHANGELOG.md updated and is ready for release");
 
   packageJson.version = newVersion.version;
@@ -127,4 +94,11 @@ export async function prepareRelease() {
   );
 
   console.log("package.json version updated");
+
+  fs.rmSync(path.resolve(process.cwd(), "./changelog"), {
+    recursive: true,
+    force: true,
+  });
+
+  console.log("changelog folder deleted");
 }

@@ -1,6 +1,6 @@
 {
   "name": "heeler",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "type": "module",
   "description": "Changelog pre-commit",
   "bin": {
@@ -11,11 +11,10 @@
   },
   "keywords": [],
   "author": "Jolyn Denning",
-  "license": "ISC",
+  "license": "MIT",
   "packageManager": "pnpm@10.13.1",
   "dependencies": {
-    "inquirer": "^12.8.2",
-    "simple-git": "^3.28.0"
+    "@inquirer/prompts": "^7.8.0"
   },
   "devDependencies": {
     "husky": "^9.1.7",
