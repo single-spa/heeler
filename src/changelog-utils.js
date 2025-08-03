@@ -26,7 +26,7 @@ export async function addToChangelog(changeType) {
     "utf-8",
   );
 
-  git.add(".changeset");
+  git.add(".changelog");
 }
 
 export async function prepareRelease() {
