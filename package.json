@@ -11,10 +11,10 @@
   },
   "keywords": [],
   "author": "Jolyn Denning",
-  "license": "ISC",
+  "license": "MIT",
   "packageManager": "pnpm@10.13.1",
   "dependencies": {
-    "inquirer": "^12.8.2",
+    "@inquirer/prompts": "^7.8.0",
     "simple-git": "^3.28.0"
   },
   "devDependencies": {

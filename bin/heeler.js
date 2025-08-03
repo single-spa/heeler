@@ -1,35 +1,39 @@
-import inquirer from "inquirer";
-import {
-  addToChangelog,
-  assertChangelogMostRecentCommit,
-  prepareRelease,
-} from "../src/changelog-utils.js";
+import { select } from "@inquirer/prompts";
+import { addToChangelog, prepareRelease } from "../src/changelog-utils.js";
 
 if (process.argv.length < 3) {
-  throw Error(`heeler requires one of the following commands: add, check`);
+  throw Error(`heeler requires one of the following commands: add, prep`);
 }
 
 const command = process.argv[2];
 
 switch (command) {
   case "add":
-    inquirer
-      .prompt([
+    const answer = await select({
+      message: "Is this a breaking change, new feature, or fix?",
+      choices: [
         {
-          name: "changetype",
-          message: "Is this a breaking change, new feature, or fix?",
-          type: "list",
-          choices: ["breaking", "feature", "fix", "skip"],
+          name: "breaking",
+          value: "breaking",
         },
-      ])
-      .then((answers) => {
-        if (answers.changetype !== "skip") {
-          return addToChangelog(answers);
-        }
-      });
-    break;
-  case "check":
-    assertChangelogMostRecentCommit();
+        {
+          name: "feature",
+          value: "feature",
+        },
+        {
+          name: "fix",
+          value: "fix",
+        },
+        {
+          name: "skip",
+          value: "skip",
+        },
+      ],
+    });
+
+    if (answer !== "skip") {
+      addToChangelog(answer);
+    }
     break;
   case "prep":
     prepareRelease();
