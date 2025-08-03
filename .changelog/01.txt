@@ -1,2 +1,2 @@
 breaking
-Fixes
+Switch to commit-msg hook

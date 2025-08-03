@@ -1,4 +1,4 @@
-import { select } from "@inquirer/prompts";
+import { select, input } from "@inquirer/prompts";
 import { addToChangelog, prepareRelease } from "../src/changelog-utils.js";
 
 if (process.argv.length < 3) {
@@ -31,9 +31,16 @@ switch (command) {
       ],
     });
 
-    if (answer !== "skip") {
-      addToChangelog(answer);
+    if (answer === "skip") {
+      process.exit(1);
     }
+
+    let message = process.argv[3];
+    if (!message) {
+      message = await input({ message: "Changelog message" });
+    }
+
+    addToChangelog(answer, message);
     break;
   case "prep":
     prepareRelease();

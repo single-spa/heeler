@@ -1,7 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
 import semver from "semver";
-import simpleGit from "simple-git";
 
 export async function addToChangelog(changeType) {
   const changelogPath = path.resolve(process.cwd(), "./.changelog");
@@ -14,19 +13,14 @@ export async function addToChangelog(changeType) {
     existingFiles = [];
   }
 
-  const git = simpleGit();
-  const mostRecentLog = await git.log({ maxCount: 1 });
-
   fs.writeFileSync(
     path.resolve(
       process.cwd(),
       `./.changelog/${existingFiles.length < 10 ? "0" : ""}${existingFiles.length + 1}.txt`,
     ),
-    `${changeType}\n${mostRecentLog.latest.message}`,
+    `${changeType}\n${message}`,
     "utf-8",
   );
-
-  git.add(".changelog");
 }
 
 export async function prepareRelease() {
