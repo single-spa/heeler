@@ -1,5 +1,9 @@
 # heeler
 
+## 3.0.0
+
+- breaking: Switch to commit-msg hook
+
 ## 2.0.0
 
 - breaking: Remove check command, switch to using changelog dir, use MIT license

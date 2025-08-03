@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import semver from "semver";
 
-export async function addToChangelog(changeType) {
+export async function addToChangelog(changeType, message) {
   const changelogPath = path.resolve(process.cwd(), "./.changelog");
   let existingFiles;
 
@@ -50,14 +50,11 @@ export async function prepareRelease() {
   let versionBump = "";
   const newChangelogLines = [""];
 
-  console.log(changelogLines);
-
   for (let existingFile of existingFiles) {
     const contents = fs.readFileSync(
       path.resolve(process.cwd(), ".changelog", existingFile),
       "utf-8",
     );
-    console.log("contents", contents);
     const [changeType, message] = contents.split("\n");
 
     if (changeType === "breaking") {
