@@ -25,6 +25,8 @@ export async function addToChangelog(changeType) {
     `${changeType}\n${mostRecentLog.latest.message}`,
     "utf-8",
   );
+
+  git.add(".changeset");
 }
 
 export async function prepareRelease() {
