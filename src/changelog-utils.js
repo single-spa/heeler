@@ -77,7 +77,7 @@ export async function prepareRelease() {
       versionBump = "fix";
     }
 
-    newChangelogLines.push(`  * ${changeType}: ${message}`);
+    newChangelogLines.push(`- ${changeType}: ${message}`);
   }
 
   const s = semver.parse(packageJson.version);
