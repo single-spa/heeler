@@ -9,7 +9,7 @@ pnpm i --save-dev heeler husky
 
 pnpm exec husky
 
-echo -e "exec < /dev/tty\nif node bin/heeler.js add $(cat $1); then\n  git add .changelog\n  git commit --amend --no-edit --no-verify\nfi" > .husky/commit-msg
+echo -e "exec < /dev/tty\nif node bin/heeler.js add \$(cat \$1); then\n  git add .changelog\n  git commit --amend --no-edit --no-verify\nfi" > .husky/commit-msg
 ```
 
 ## Usage

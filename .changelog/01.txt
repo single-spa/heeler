@@ -1,6 +1,2 @@
 breaking
-<<<<<<< HEAD
-Switch
-=======
-Fixes
->>>>>>> main
+Switch to commit-msg hook
