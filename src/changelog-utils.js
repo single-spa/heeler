@@ -50,14 +50,11 @@ export async function prepareRelease() {
   let versionBump = "";
   const newChangelogLines = [""];
 
-  console.log(changelogLines);
-
   for (let existingFile of existingFiles) {
     const contents = fs.readFileSync(
       path.resolve(process.cwd(), ".changelog", existingFile),
       "utf-8",
     );
-    console.log("contents", contents);
     const [changeType, message] = contents.split("\n");
 
     if (changeType === "breaking") {
