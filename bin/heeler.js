@@ -31,14 +31,16 @@ switch (command) {
       ],
     });
 
+    if (answer === "skip") {
+      process.exit(1);
+    }
+
     let message = process.argv[3];
     if (!message) {
       message = await input({ message: "Changelog message" });
     }
 
-    if (answer !== "skip") {
-      addToChangelog(answer, message);
-    }
+    addToChangelog(answer, message);
     break;
   case "prep":
     prepareRelease();

@@ -1,2 +1,6 @@
 breaking
+<<<<<<< HEAD
 Switch
+=======
+Fixes
+>>>>>>> main
