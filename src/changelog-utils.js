@@ -20,7 +20,7 @@ export async function addToChangelog(changeType) {
   fs.writeFileSync(
     path.resolve(
       process.cwd(),
-      `./changelog/${existingFiles.length < 10 ? "0" : ""}${existingFiles.length + 1}.txt`,
+      `./.changelog/${existingFiles.length < 10 ? "0" : ""}${existingFiles.length + 1}.txt`,
     ),
     `${changeType}\n${mostRecentLog.latest.message}`,
     "utf-8",
