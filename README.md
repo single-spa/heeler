@@ -10,6 +10,8 @@ pnpm i --save-dev heeler husky
 pnpm exec husky
 
 echo "pnpm exec heeler add" > .husky/pre-commit
+
+echo "changelog" >> .gitignore
 ```
 
 ## Usage
