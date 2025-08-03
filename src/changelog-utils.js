@@ -4,7 +4,7 @@ import semver from "semver";
 import simpleGit from "simple-git";
 
 export async function addToChangelog(changeType) {
-  const changelogPath = path.resolve(process.cwd(), "./changelog");
+  const changelogPath = path.resolve(process.cwd(), "./.changelog");
   let existingFiles;
 
   try {
@@ -40,7 +40,7 @@ export async function prepareRelease() {
 
   let existingFiles;
   try {
-    existingFiles = fs.readdirSync(path.resolve(process.cwd(), "./changelog"));
+    existingFiles = fs.readdirSync(path.resolve(process.cwd(), "./.changelog"));
   } catch (err) {
     existingFiles = [];
   }
@@ -58,7 +58,7 @@ export async function prepareRelease() {
 
   for (let existingFile of existingFiles) {
     const contents = fs.readFileSync(
-      path.resolve(process.cwd(), "changelog", existingFile),
+      path.resolve(process.cwd(), ".changelog", existingFile),
       "utf-8",
     );
     console.log("contents", contents);
