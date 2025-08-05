@@ -1,2 +1,0 @@
-breaking
-Switch to commit-msg hook
