@@ -65,7 +65,7 @@ export async function prepareRelease() {
       changeType === "fix" &&
       !["major", "minor"].includes(versionBump)
     ) {
-      versionBump = "fix";
+      versionBump = "patch";
     }
 
     newChangelogLines.push(`- ${changeType}: ${message}`);
