@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import semver from "semver";
 
-export async function addToChangelog(changeType) {
+export async function addToChangelog(changeType, message) {
   const changelogPath = path.resolve(process.cwd(), "./.changelog");
   let existingFiles;
 
