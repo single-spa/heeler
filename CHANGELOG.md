@@ -1,5 +1,10 @@
 # heeler
 
+## 3.0.1
+
+- fix: Fix issue with heeler prep for fix/patch changelog entries
+- fix: Fix issue with heeler add's message prompt
+
 ## 3.0.0
 
 - breaking: Switch to commit-msg hook
