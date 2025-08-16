@@ -1,4 +1,4 @@
-import { select, input } from "@inquirer/prompts";
+import { select, editor } from "@inquirer/prompts";
 import { addToChangelog, prepareRelease } from "../src/changelog-utils.js";
 
 if (process.argv.length < 3) {
@@ -37,7 +37,7 @@ switch (command) {
 
     let message = process.argv[3];
     if (!message) {
-      message = await input({ message: "Changelog message" });
+      message = await editor({ message: "Changelog message" });
     }
 
     addToChangelog(answer, message);
