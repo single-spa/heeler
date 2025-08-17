@@ -1,0 +1,2 @@
+fix
+Support creation of CHANGELOG.md file

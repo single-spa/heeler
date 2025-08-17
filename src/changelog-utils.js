@@ -27,7 +27,13 @@ export async function prepareRelease() {
   const changelogPath = path.resolve(process.cwd(), "CHANGELOG.md");
   const packageJsonPath = path.resolve(process.cwd(), "package.json");
   const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf-8"));
-  const changelogLines = fs.readFileSync(changelogPath, "utf-8").split("\n");
+
+  let changelogLines;
+  if (fs.existsSync(changelogPath)) {
+    changelogLines = fs.readFileSync(changelogPath, "utf-8").split("\n");
+  } else {
+    changelogLines = [];
+  }
 
   if (changelogLines[0] !== `# ${packageJson.name}`) {
     changelogLines.unshift(`# ${packageJson.name}`);
