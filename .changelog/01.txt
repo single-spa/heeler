@@ -1,2 +1,2 @@
 fix
-Fix issue with heeler add's message prompt
+Fix prep command not deleting correct directory

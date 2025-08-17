@@ -72,7 +72,13 @@ export async function prepareRelease() {
   }
 
   const s = semver.parse(packageJson.version);
-  const newVersion = s.inc(versionBump);
+  let newVersion;
+
+  if (s.prerelease.length > 0) {
+    newVersion = s.inc("prerelease", s.prerelease[0]);
+  } else {
+    newVersion = s.inc(versionBump);
+  }
 
   newChangelogLines.push(`## ${newVersion}`);
   newChangelogLines.reverse();
@@ -92,7 +98,7 @@ export async function prepareRelease() {
 
   console.log("package.json version updated");
 
-  fs.rmSync(path.resolve(process.cwd(), "./changelog"), {
+  fs.rmSync(path.resolve(process.cwd(), "./.changelog"), {
     recursive: true,
     force: true,
   });

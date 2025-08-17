@@ -1,2 +1,2 @@
-fix
-Fix issue with heeler prep for fix/patch changelog entries
+feature
+Add support for prerelease mode to prep command
