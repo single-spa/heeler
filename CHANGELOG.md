@@ -1,5 +1,9 @@
 # heeler
 
+## 3.1.1
+
+- fix: Support creation of CHANGELOG.md file
+
 ## 3.1.0
 
 - feature: Add support for prerelease mode to prep command
