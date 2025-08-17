@@ -1,5 +1,10 @@
 # heeler
 
+## 3.1.0
+
+- feature: Add support for prerelease mode to prep command
+- fix: Fix prep command not deleting correct directory
+
 ## 3.0.1
 
 - fix: Fix issue with heeler prep for fix/patch changelog entries

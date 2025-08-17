@@ -1,2 +1,0 @@
-feature
-Add support for prerelease mode to prep command

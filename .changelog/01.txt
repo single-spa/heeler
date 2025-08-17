@@ -1,2 +1,0 @@
-fix
-Fix prep command not deleting correct directory
