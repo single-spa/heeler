@@ -84,7 +84,11 @@ export async function prepareRelease() {
     let prStr;
     if (prMatch) {
       if (packageJson.repository) {
-        prStr = ` ([${prMatch[1].replace("(", "").replace(")", "")}](${packageJson.repository}/pull/${prMatch[1].replace("#", "")}))`;
+        const prNumber = prMatch[1]
+          .replace("(", "")
+          .replace(")", "")
+          .replace("#", "");
+        prStr = ` ([#${prNumber}](${packageJson.repository}/pull/${prNumber}))`;
       } else {
         prStr = ` ${prMatch[1]}`;
       }

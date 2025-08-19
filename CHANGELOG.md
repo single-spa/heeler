@@ -1,8 +1,12 @@
 # heeler
 
+## 3.3.1
+
+- fix: Fix parentheses in pull request links 1a9ecc7 ([#13](https://github.com/single-spa/heeler/pull/13)) by Jolyn
+
 ## 3.3.0
 
-- feature: Add link to pull requests 7a38d7b ([(#12)](<https://github.com/single-spa/heeler/pull/(12)>)) by Jolyn
+- feature: Add link to pull requests 7a38d7b ([(#12)](https://github.com/single-spa/heeler/pull/12)) by Jolyn
 
 ## 3.2.0
 
