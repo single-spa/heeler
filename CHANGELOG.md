@@ -1,5 +1,9 @@
 # heeler
 
+## 3.3.0
+
+- feature: Add link to pull requests 7a38d7b ([(#12)](<https://github.com/single-spa/heeler/pull/(12)>)) by Jolyn
+
 ## 3.2.0
 
 - feature: Add commit hash, pull request, and author to changelog entries 22fb2c8 (#11) by Jolyn
