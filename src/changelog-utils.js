@@ -81,7 +81,16 @@ export async function prepareRelease() {
 
     const prMatch = /(\(#[0-9]+\))$/.exec(log.latest.message);
 
-    const prStr = prMatch ? " " + prMatch[1] : "";
+    let prStr;
+    if (prMatch) {
+      if (packageJson.repository) {
+        prStr = ` ([${prMatch[1].replace("(", "").replace(")", "")}](${packageJson.repository}/pull/${prMatch[1].replace("#", "")}))`;
+      } else {
+        prStr = ` ${prMatch[1]}`;
+      }
+    } else {
+      prStr = "";
+    }
 
     newChangelogLines.push(
       `- ${changeType}: ${message} ${revparse}${prStr} by ${log.latest.author_name}`,
