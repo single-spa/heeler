@@ -1,5 +1,9 @@
 # heeler
 
+## 3.2.0
+
+- feature: Add commit hash, pull request, and author to changelog entries 22fb2c8 (#11) by Jolyn
+
 ## 3.1.1
 
 - fix: Support creation of CHANGELOG.md file
