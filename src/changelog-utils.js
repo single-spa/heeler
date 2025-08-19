@@ -83,8 +83,6 @@ export async function prepareRelease() {
 
     const prStr = prMatch ? " " + prMatch[1] : "";
 
-    console.log("log", log);
-
     newChangelogLines.push(
       `- ${changeType}: ${message} ${revparse}${prStr} by ${log.latest.author_name}`,
     );
