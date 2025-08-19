@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import semver from "semver";
+import simpleGit from "simple-git";
 
 export async function addToChangelog(changeType, message) {
   const changelogPath = path.resolve(process.cwd(), "./.changelog");
@@ -57,10 +58,10 @@ export async function prepareRelease() {
   const newChangelogLines = [""];
 
   for (let existingFile of existingFiles) {
-    const contents = fs.readFileSync(
-      path.resolve(process.cwd(), ".changelog", existingFile),
-      "utf-8",
-    );
+    const filePath = path.resolve(process.cwd(), ".changelog", existingFile);
+
+    const contents = fs.readFileSync(filePath, "utf-8");
+
     const [changeType, message] = contents.split("\n");
 
     if (changeType === "breaking") {
@@ -74,7 +75,17 @@ export async function prepareRelease() {
       versionBump = "patch";
     }
 
-    newChangelogLines.push(`- ${changeType}: ${message}`);
+    const git = await simpleGit();
+    const log = await git.log({ file: filePath });
+    const revparse = await git.revparse(["--short", log.latest.hash]);
+
+    const prMatch = /(\(#[0-9]+\))$/.exec(log.latest.message);
+
+    const prStr = prMatch ? " " + prMatch[1] : "";
+
+    newChangelogLines.push(
+      `- ${changeType}: ${message} ${revparse}${prStr} by ${log.latest.author_name}`,
+    );
   }
 
   const s = semver.parse(packageJson.version);

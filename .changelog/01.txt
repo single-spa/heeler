@@ -1,0 +1,2 @@
+feature
+Add commit hash, pull request, and author to changelog entries
