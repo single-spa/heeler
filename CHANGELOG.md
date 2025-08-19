@@ -1,5 +1,9 @@
 # heeler
 
+## 3.3.2
+
+- fix: Fix bug where repository url is object rather than string aed5304 ([#14](https://github.com/single-spa/heeler/pull/14)) by Jolyn
+
 ## 3.3.1
 
 - fix: Fix parentheses in pull request links 1a9ecc7 ([#13](https://github.com/single-spa/heeler/pull/13)) by Jolyn

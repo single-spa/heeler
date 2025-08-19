@@ -1,2 +1,0 @@
-fix
-Fix bug where repository url is object rather than string
