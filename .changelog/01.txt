@@ -1,2 +1,0 @@
-breaking
-Use package.json homepage field rather than repository field, for pr links

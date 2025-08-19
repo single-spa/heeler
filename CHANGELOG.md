@@ -1,5 +1,9 @@
 # heeler
 
+## 4.0.0
+
+- breaking: Use package.json homepage field rather than repository field, for pr links 3712743 ([#15](https://github.com/single-spa/heeler/pull/15)) by Jolyn
+
 ## 3.3.2
 
 - fix: Fix bug where repository url is object rather than string aed5304 ([#14](https://github.com/single-spa/heeler/pull/14)) by Jolyn
