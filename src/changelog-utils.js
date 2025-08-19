@@ -83,14 +83,13 @@ export async function prepareRelease() {
 
     let prStr;
     if (prMatch) {
-      const repositoryUrl =
-        packageJson.repository?.url ?? packageJson.repository;
-      if (typeof repositoryUrl === "string") {
+      const homepage = packageJson.homepage?.replace(/#(.+)$/, "");
+      if (typeof homepage === "string") {
         const prNumber = prMatch[1]
           .replace("(", "")
           .replace(")", "")
           .replace("#", "");
-        prStr = ` ([#${prNumber}](${repositoryUrl}/pull/${prNumber}))`;
+        prStr = ` ([#${prNumber}](${homepage}/pull/${prNumber}))`;
       } else {
         prStr = ` ${prMatch[1]}`;
       }
