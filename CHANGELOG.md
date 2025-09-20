@@ -1,5 +1,9 @@
 # heeler
 
+## 4.0.2
+
+- fix: Bundle to avoid issues with downstream dependencies d2d1d56 ([#17](https://github.com/single-spa/heeler/pull/17)) by Jolyn
+
 ## 4.0.1
 
 - fix: Restore vim bindings c4a4e84 ([#16](https://github.com/single-spa/heeler/pull/16)) by Jolyn
