@@ -1,5 +1,9 @@
 # heeler
 
+## 4.0.1
+
+- fix: Restore vim bindings c4a4e84 ([#16](https://github.com/single-spa/heeler/pull/16)) by Jolyn
+
 ## 4.0.0
 
 - breaking: Use package.json homepage field rather than repository field, for pr links 3712743 ([#15](https://github.com/single-spa/heeler/pull/15)) by Jolyn
