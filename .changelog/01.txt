@@ -1,2 +1,0 @@
-fix
-Add newline in changelog between header and first item

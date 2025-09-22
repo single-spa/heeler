@@ -1,5 +1,9 @@
 # heeler
 
+## 4.0.3
+
+- fix: Add newline in changelog between header and first item 2d3033a ([#18](https://github.com/single-spa/heeler/pull/18)) by Jolyn
+
 ## 4.0.2
 
 - fix: Bundle to avoid issues with downstream dependencies d2d1d56 ([#17](https://github.com/single-spa/heeler/pull/17)) by Jolyn
