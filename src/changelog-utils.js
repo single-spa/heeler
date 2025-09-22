@@ -111,6 +111,7 @@ export async function prepareRelease() {
     newVersion = s.inc(versionBump);
   }
 
+  newChangelogLines.push("");
   newChangelogLines.push(`## ${newVersion}`);
   newChangelogLines.reverse();
 
