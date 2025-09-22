@@ -1,5 +1,9 @@
 # heeler
 
+## 4.0.4
+
+- fix: Add prepublishOnly script c304137 ([#19](https://github.com/single-spa/heeler/pull/19)) by Jolyn
+
 ## 4.0.3
 
 - fix: Add newline in changelog between header and first item 2d3033a ([#18](https://github.com/single-spa/heeler/pull/18)) by Jolyn
